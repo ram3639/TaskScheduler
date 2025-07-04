@@ -68,13 +68,19 @@ router.delete('/:id', auth, async (req, res) => {
 
 // Toggle Complete
 router.patch('/:id/complete', auth, async (req, res) => {
+  console.log('Complete task request:', { taskId: req.params.id, userId: req.user.userId });
   try {
     const task = await Task.findOne({ _id: req.params.id, userId: req.user.userId });
-    if (!task) return res.status(404).json({ message: 'Task not found' });
+    if (!task) {
+      console.log('Task not found:', req.params.id);
+      return res.status(404).json({ message: 'Task not found' });
+    }
     task.isCompleted = !task.isCompleted;
     await task.save();
+    console.log('Task completed successfully:', { taskId: req.params.id, isCompleted: task.isCompleted });
     res.json(task);
   } catch (err) {
+    console.error('Error completing task:', err);
     res.status(500).json({ message: 'Server error', error: err.message });
   }
 });

@@ -9,8 +9,8 @@ const cors = require('cors');
 app.use(cors({
   origin: true, // Allow all origins for now
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // MongoDB connection
@@ -42,6 +42,15 @@ app.get('/debug/auth', (req, res) => {
     message: 'Auth routes are accessible',
     authRoutesLoaded: !!authRoutes,
     availableRoutes: ['/api/register', '/api/login']
+  });
+});
+
+// Test route to verify task routes are working
+app.get('/debug/tasks', (req, res) => {
+  res.json({ 
+    message: 'Task routes are accessible',
+    taskRoutesLoaded: !!taskRoutes,
+    availableRoutes: ['/api/tasks', '/api/tasks/:id', '/api/tasks/:id/complete']
   });
 });
 
