@@ -7,12 +7,7 @@ app.use(express.json());
 
 const cors = require('cors');
 app.use(cors({
-  origin: [
-    'http://localhost:5173', // Vite dev server
-    'http://localhost:3000', // Alternative dev port
-    'https://*.vercel.app', // All Vercel domains
-    'https://task-scheduler-erhp90epv-ram3639s-projects.vercel.app' // Your Vercel domain
-  ],
+  origin: true, // Allow all origins for now
   credentials: true
 }));
 
@@ -27,6 +22,11 @@ mongoose.connect(process.env.MONGODB_URI, {
 // Basic route
 app.get('/', (req, res) => {
   res.send('Task Scheduler API is running');
+});
+
+// Debug route to test API
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API is working', timestamp: new Date().toISOString() });
 });
 
 const authRoutes = require('./routes/auth');
