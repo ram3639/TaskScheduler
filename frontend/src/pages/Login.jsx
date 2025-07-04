@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = ({ onLogin }) => {
@@ -12,7 +12,7 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setError('');
     try {
-      const res = await axios.post('/api/login', { email, password });
+      const res = await api.post('/login', { email, password });
       onLogin(res.data.token, res.data.username);
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');

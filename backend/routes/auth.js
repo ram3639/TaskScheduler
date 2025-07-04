@@ -27,20 +27,25 @@ router.post('/register', async (req, res) => {
 
 // Login
 router.post('/login', async (req, res) => {
+  console.log('Login attempt:', { email: req.body.email, hasPassword: !!req.body.password });
   try {
     const { email, password } = req.body;
     if (!email || !password) {
+      console.log('Missing email or password');
       return res.status(400).json({ message: 'Email and password required' });
     }
     const user = await User.findOne({ email });
     if (!user) {
+      console.log('User not found:', email);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      console.log('Password mismatch for user:', email);
       return res.status(401).json({ message: 'Invalid credentials' });
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1d' });
+    console.log('Login successful for user:', email);
     res.json({ token, username: user.username });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
