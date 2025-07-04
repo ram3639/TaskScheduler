@@ -29,4 +29,24 @@ api.interceptors.response.use(
   }
 );
 
+// Test backend connection on app load
+console.log('🔍 Testing backend connection...');
+console.log('🔍 API Base URL:', process.env.NODE_ENV === 'production' 
+  ? 'https://taskscheduler-5rbv.onrender.com/api'
+  : 'http://localhost:5000/api');
+
+api.get('/test')
+  .then(response => {
+    console.log('✅ Backend connection successful:', response.data);
+  })
+  .catch(error => {
+    console.error('❌ Backend connection failed:', error);
+    console.error('❌ Error details:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data,
+      url: error.config?.url
+    });
+  });
+
 export default api; 
