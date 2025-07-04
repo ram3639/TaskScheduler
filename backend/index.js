@@ -7,12 +7,7 @@ app.use(express.json());
 
 const cors = require('cors');
 app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://task-scheduler-erhp90epv-ram3639s-projects.vercel.app',
-    'https://*.vercel.app'
-  ],
+  origin: true, // Allow all origins for now
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
