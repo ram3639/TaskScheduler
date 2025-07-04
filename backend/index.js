@@ -30,12 +30,24 @@ app.get('/api/test', (req, res) => {
 });
 
 // Debug route to test register endpoint (temporary)
-app.get('/api/debug/register', (req, res) => {
+app.get('/debug/register', (req, res) => {
   res.json({ message: 'Register endpoint exists', method: 'GET' });
+});
+
+// Test route to verify auth routes are working
+app.get('/debug/auth', (req, res) => {
+  res.json({ 
+    message: 'Auth routes are accessible',
+    authRoutesLoaded: !!authRoutes,
+    availableRoutes: ['/api/register', '/api/login']
+  });
 });
 
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
+
+console.log('Auth routes loaded:', authRoutes.stack?.length || 'No routes found');
+console.log('Task routes loaded:', taskRoutes.stack?.length || 'No routes found');
 
 // Debug middleware to log all requests
 app.use((req, res, next) => {
