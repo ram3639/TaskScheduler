@@ -6,7 +6,15 @@ const app = express();
 app.use(express.json());
 
 const cors = require('cors');
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173', // Vite dev server
+    'http://localhost:3000', // Alternative dev port
+    'https://*.vercel.app', // All Vercel domains
+    'https://task-scheduler-erhp90epv-ram3639s-projects.vercel.app' // Your Vercel domain
+  ],
+  credentials: true
+}));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {
