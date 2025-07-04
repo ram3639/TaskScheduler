@@ -29,8 +29,19 @@ app.get('/api/test', (req, res) => {
   res.json({ message: 'API is working', timestamp: new Date().toISOString() });
 });
 
+// Debug route to test register endpoint (temporary)
+app.get('/api/debug/register', (req, res) => {
+  res.json({ message: 'Register endpoint exists', method: 'GET' });
+});
+
 const authRoutes = require('./routes/auth');
 const taskRoutes = require('./routes/tasks');
+
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`);
+  next();
+});
 
 app.use('/api', authRoutes);
 app.use('/api/tasks', taskRoutes);
