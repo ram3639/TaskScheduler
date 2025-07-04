@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: process.env.NODE_ENV === 'production' 
+    ? 'https://taskscheduler-5rbv.onrender.com/api'
+    : 'http://localhost:5000/api',
 });
 
 // Attach JWT token if present
